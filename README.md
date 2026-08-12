@@ -57,19 +57,19 @@ The application follows a service-oriented backend architecture.
                  +-------------------+
                  |   API Service     |
                  +-------------------+
-                    |      |      |
-                    |      |      |
-                    v      v      v
-                 PostgreSQL Redis Kafka
-                    |             |
-                    |             v
-                    |       Event Consumer
-                    |             |
-                    |             v
-                    |       Processing Service
-                    |             |
-                    |             v
-                    |       Elasticsearch
-                    |
+                    |       |        |
+                    |       |        |
+                    v       v        v
+               PostgreSQL  Redis   Kafka
+                    |       |        |
+                    |       |        v
+                    |       |    Kafka Streams
+                    |       |        |
+                    |       v        v
+                    |      Cache / Event
+                    |       Processing
+                    |           |
+                    |           v
+                    |      Elasticsearch
                     v
               JPA / Hibernate
