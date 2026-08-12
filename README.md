@@ -49,10 +49,28 @@ Client
 
 ## Run
 
+Start PostgreSQL:
+
 ```cmd
+docker compose -f docker/postgres/docker-compose.yml up -d
+
+```
+
+
+Build and start application services:
+
+```
 mvn clean package
  docker compose up --build
 ```
+
+## Postman Collection
+
+```text
+Technical Assessment.postman_collection.json
+```
+
+## Endpoint
 
 API: `http://localhost:8080`
 
