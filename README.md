@@ -62,7 +62,9 @@ PostgreSQL initialization is located under `docker/postgres/init.sql`.
 The application uses JPA/Hibernate for normal persistence and explicit native SQL for the analytics use case.
 
 
-## Created and Developed by Ayub Krislastono
+## Author
+
+Created and Developed by Ayub Krislastono
 
 Technical Assessment — Backend Developer Java
 
