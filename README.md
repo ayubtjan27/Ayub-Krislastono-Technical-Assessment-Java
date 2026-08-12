@@ -7,14 +7,23 @@ Senior-level Spring Boot backend assessment demonstrating Spring IoC, Java Strea
 ```text
 Client
   |
-  +--> API Service --> PostgreSQL
-  |        |              |
-  |        +--> Redis     +--> analytics native SQL
-  |        |
-  |        +--> Kafka --> Stream Service --> Elasticsearch
+  +--> API Service :8080
+  |       |
+  |       +--> PostgreSQL :5433
+  |       |       |
+  |       |       +--> JPA/Hibernate
+  |       |       +--> Native SQL Analytics
+  |       |
+  |       +--> Redis :6379
+  |       |
+  |       +--> Kafka :9092
+  |               |
+  |               +--> Stream Service :8081
+  |                       |
+  |                       +--> Elasticsearch :9200
   |
-  +--> JSP view
-```
+  +--> JSP View
+  ```
 
 ## Modules
 
