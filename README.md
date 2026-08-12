@@ -1,6 +1,6 @@
 # Technical Assessment - Backend Developer Java
 
-Senior-level Spring Boot backend assessment demonstrating Spring IoC, Java Stream API, advanced native SQL, microservices, Docker, Kafka stream processing, Redis cache-aside strategy, and Elasticsearch search.
+A Java Spring Boot backend application developed as part of a technical assessment, covering REST API development, database integration, microservices, event streaming, caching, and search.
 
 ## Architecture
 
