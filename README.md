@@ -49,7 +49,17 @@ Client
 
 ## Run
 
+Start PostgreSQL:
+
 ```cmd
+docker compose -f docker/postgres/docker-compose.yml up -d
+
+```
+
+
+Build and start application services:
+
+```
 mvn clean package
  docker compose up --build
 ```
