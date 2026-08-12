@@ -1,75 +1,62 @@
 # Technical Assessment - Backend Developer Java
 
-# Overview
+Senior-level Spring Boot backend assessment demonstrating Spring IoC, Java Stream API, advanced native SQL, microservices, Docker, Kafka stream processing, Redis cache-aside strategy, and Elasticsearch search.
 
-Backend application developed using Java and Spring Boot to demonstrate enterprise backend development capabilities, covering application architecture, database processing, asynchronous event streaming, caching, containerization, and non-relational data search.
+## Architecture
 
-The application is designed with a modular and service-oriented architecture and exposes functionality through REST APIs.
+```text
+Client
+  |
+  +--> API Service --> PostgreSQL
+  |        |              |
+  |        +--> Redis     +--> analytics native SQL
+  |        |
+  |        +--> Kafka --> Stream Service --> Elasticsearch
+  |
+  +--> JSP view
+```
 
-# Technology Stack
+## Modules
 
-- Java
-- Spring Boot
-- Spring IoC / Dependency Injection
-- Spring Data JPA
-- Hibernate ORM
-- REST API
-- JSP
-- PostgreSQL
-- Native SQL Query
-- Java Stream API
-- Apache Kafka
-- Redis
-- Elasticsearch
-- Docker
-- Maven
+- `api-service`: REST API, JSP, JPA/Hibernate, native SQL, Redis and Kafka producer.
+- `stream-service`: Kafka consumer/stream processing and Elasticsearch indexing/search.
 
-## Senior-Level Requirements
-
-This project implements the following technical requirements:
+## Senior requirements
 
 | Requirement | Implementation |
 |---|---|
-| Spring IoC | Dependency Injection using Spring Beans, Services, Repositories, and Components |
-| Java Stream | Collection processing, filtering, mapping, grouping, sorting, and aggregation |
-| Advanced Native SQL Query | Complex SQL involving JOIN, aggregation, filtering, subquery, pagination, and analytical data processing |
-| Containerization | Application services are containerized using Docker |
-| Microservices | Application components are separated into independent backend services |
-| Kafka | Event-driven communication and asynchronous processing |
-| Stream Based Application | Kafka event streams are consumed and processed by backend services |
-| Redis | Caching and temporary data storage |
-| Caching Strategy | Cache-aside strategy for frequently accessed data |
-| Data Grid | Redis-based distributed data access |
-| Elasticsearch | Full-text search and indexing of application data |
-| Non-Relational Database | Elasticsearch is used for search-oriented data storage and retrieval |
+| Spring IoC | Constructor injection with Spring-managed services, repositories and components |
+| Java Stream | Filtering, mapping, grouping, sorting and aggregation in service processing |
+| Advanced Native SQL | CTE, joins, aggregation, correlated filtering and window functions |
+| Containerization | Dockerfiles and Docker Compose |
+| Microservices | Independent API and stream services |
+| Kafka | Domain event publication and consumption |
+| Stream Based Application | Kafka consumer performs transformation and indexing |
+| Redis | Cache-aside for frequently read product data |
+| Caching Strategy | Read cache, database fallback, cache write and explicit invalidation |
+| Data Grid | Redis-backed shared cache across API instances |
+| Elasticsearch | Search-oriented index for product events |
+| Non-Relational DB | Elasticsearch for denormalized search data |
 
-# Architecture
+## Run
 
-The application follows a service-oriented backend architecture.
+```cmd
+mvn clean package
+ docker compose up --build
+```
 
-```text
-                        Client
-                          |
-                          v
-                    REST API Layer
-                          |
-                          v
-                 +-------------------+
-                 |   API Service     |
-                 +-------------------+
-                    |       |        |
-                    |       |        |
-                    v       v        v
-               PostgreSQL  Redis   Kafka
-                    |       |        |
-                    |       |        v
-                    |       |    Kafka Streams
-                    |       |        |
-                    |       v        v
-                    |      Cache / Event
-                    |       Processing
-                    |           |
-                    |           v
-                    |      Elasticsearch
-                    v
-              JPA / Hibernate
+API: `http://localhost:8080`
+
+Health: `http://localhost:8080/api/products/health`
+
+Search: `GET /api/search/products?q=coffee`
+
+Analytics: `GET /api/products/analytics`
+
+JSP: `http://localhost:8080/products`
+
+## Database
+
+PostgreSQL initialization is located under `docker/postgres/init.sql`.
+
+The application uses JPA/Hibernate for normal persistence and explicit native SQL for the analytics use case.
