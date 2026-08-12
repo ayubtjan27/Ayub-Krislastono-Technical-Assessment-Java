@@ -64,6 +64,14 @@ mvn clean package
  docker compose up --build
 ```
 
+## Postman Collection
+
+```text
+Technical Assessment.postman_collection.json
+```
+
+## Endpoint
+
 API: `http://localhost:8080`
 
 Health: `http://localhost:8080/api/products/health`
