@@ -1,19 +1,25 @@
 package com.ayub.assessment.api.search;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@RestController @RequestMapping("/api/search")
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/search")
 public class SearchController {
-    private final ElasticsearchClient client;
-    public SearchController(ElasticsearchClient client){this.client=client;}
+
+    private final ElasticsearchConfig elasticsearchConfig;
+
+    public SearchController(ElasticsearchConfig elasticsearchConfig) {
+        this.elasticsearchConfig = elasticsearchConfig;
+    }
+
     @GetMapping("/products")
-    public List<Map<String,Object>> search(@RequestParam String q) throws IOException {
-        SearchResponse<Map> response=client.search(s->s.index("products").query(x->x.multiMatch(m->m.query(q).fields("name","category"))),Map.class);
-        return response.hits().hits().stream().map(h->h.source()).toList();
+    public List<Map<String, Object>> searchProducts(@RequestParam String q) {
+        return elasticsearchConfig.searchProducts(q);
     }
 }
