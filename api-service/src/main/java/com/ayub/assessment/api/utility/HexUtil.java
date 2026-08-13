@@ -1,9 +1,9 @@
 package com.ayub.assessment.api.utility;
 
-/* HEX encoding and decoding utility */
 public final class HexUtil {
 
-    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    private static final char[] HEX_ARRAY =
+            "0123456789ABCDEF".toCharArray();
 
     private HexUtil() {
     }
@@ -31,7 +31,8 @@ public final class HexUtil {
         }
 
         if ((hex.length() & 1) != 0) {
-            throw new IllegalArgumentException("Invalid HEX string length");
+            throw new IllegalArgumentException(
+                    "Invalid HEX string length");
         }
 
         byte[] result = new byte[hex.length() / 2];
@@ -41,10 +42,12 @@ public final class HexUtil {
             int low = Character.digit(hex.charAt(i + 1), 16);
 
             if (high == -1 || low == -1) {
-                throw new IllegalArgumentException("Invalid HEX character");
+                throw new IllegalArgumentException(
+                        "Invalid HEX character");
             }
 
-            result[i / 2] = (byte) ((high << 4) | low);
+            result[i / 2] =
+                    (byte) ((high << 4) | low);
         }
 
         return result;

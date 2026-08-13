@@ -18,26 +18,92 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 public class SearchController {
 
     private final ElasticsearchClient elasticsearchClient;
+    private final SearchSyncService searchSyncService;
 
-    public SearchController(ElasticsearchClient elasticsearchClient) {
+    public SearchController(
+            ElasticsearchClient elasticsearchClient,
+            SearchSyncService searchSyncService) {
+
         this.elasticsearchClient = elasticsearchClient;
+        this.searchSyncService = searchSyncService;
     }
 
     @GetMapping("/products")
-    public List<Map<String, Object>> searchProducts(@RequestParam String q) throws IOException {
-        SearchResponse<Map> response = elasticsearchClient.search(s -> s
-                .index("products")
-                .query(Query.of(query -> query
-                        .multiMatch(multiMatch -> multiMatch
-                                .query(q)
-                                .fields("name", "category")
-                        )
-                )),
-                Map.class
-        );
+    public List<Map<String, Object>> searchProducts(
+                @RequestParam(required = false) String field,
+                @RequestParam String keyword) throws IOException {
+        
+        SearchResponse<Map> response;
+
+        if (field == null || field.isBlank()) {
+            response = elasticsearchClient.search(s -> s
+                    .index("products")
+                    .size(100)
+                    .query(Query.of(query -> query
+                            .multiMatch(multiMatch -> multiMatch
+                                    .query(keyword)
+                                    .fields("name", "category")
+                            )
+                    )),
+                    Map.class
+            );
+
+            if (!response.hits().hits().isEmpty()) {
+                return response.hits().hits().stream()
+                        .map(hit -> (Map<String, Object>) hit.source())
+                        .toList();
+            }
+
+            response = elasticsearchClient.search(s -> s
+                    .index("products")
+                    .size(100)
+                    .query(Query.of(query -> query
+                            .queryString(queryString -> queryString
+                                    .query("*" + keyword + "*")
+                                    .fields("name", "category")
+                            )
+                    )),
+                    Map.class
+            );
+
+        } else {
+            if (!field.equals("name")
+                    && !field.equals("category")) {
+
+                throw new IllegalArgumentException(
+                        "field must be name or category"
+                );
+            }
+
+            response = elasticsearchClient.search(s -> s
+                    .index("products")
+                    .size(100)
+                    .query(Query.of(query -> query
+                            .match(match -> match
+                                    .field(field)
+                                    .query(keyword)
+                            )
+                    )),
+                    Map.class
+            );
+        }
 
         return response.hits().hits().stream()
                 .map(hit -> (Map<String, Object>) hit.source())
                 .toList();
+    }
+
+    @GetMapping("/sync")
+    public Map<String, Object> syncProducts()
+            throws IOException {
+
+        int total =
+                searchSyncService.syncProducts();
+
+        return Map.of(
+                "status", "SUCCESS",
+                "index", "products",
+                "total", total
+        );
     }
 }

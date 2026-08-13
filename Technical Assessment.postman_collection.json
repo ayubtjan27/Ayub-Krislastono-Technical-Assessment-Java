@@ -8,102 +8,170 @@
   },
   "item": [
     {
-      "name": "Analytics",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/api/products/analytics",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "api",
-            "products",
-            "analytics"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Products",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/api/products/6",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "api",
-            "products",
-            "6"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Products",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"name\": \"Hot Tea\",\r\n  \"category\": \"Tea\",\r\n  \"price\": 3000,\r\n  \"active\": true\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+      "name": "API Service",
+      "item": [
+        {
+          "name": "Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/products/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "products",
+                "7"
+              ]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:8080/api/products",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "api",
-            "products"
-          ]
+        {
+          "name": "Products",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Old Tea\",\r\n  \"category\": \"Tea\",\r\n  \"price\": 3000,\r\n  \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/products/analytics?min=1000&max=5000",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "products",
+                "analytics"
+              ],
+              "query": [
+                {
+                  "key": "min",
+                  "value": "1000"
+                },
+                {
+                  "key": "max",
+                  "value": "5000"
+                }
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Search",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8080/api/search/products?q=Tea",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8080",
-          "path": [
-            "api",
-            "search",
-            "products"
-          ],
-          "query": [
-            {
-              "key": "q",
-              "value": "Tea"
+      "name": "Stream Service",
+      "item": [
+        {
+          "name": "Elastic Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/search/products?keyword=Tea",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "search",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "Tea"
+                }
+              ]
             }
-          ]
+          },
+          "response": []
+        },
+        {
+          "name": "Search with Field",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/search/products?q=Tea",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "search",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Tea"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Synchronization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/search/sync",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "search",
+                "sync"
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
       "name": "Health",

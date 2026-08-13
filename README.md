@@ -9,7 +9,7 @@ Client
   |
   +--> API Service :8080
   |       |
-  |       +--> PostgreSQL :5433
+  |       +--> PostgreSQL Source of Truth :5433
   |       |       |
   |       |       +--> JPA/Hibernate
   |       |       +--> Native SQL Analytics
@@ -49,20 +49,40 @@ Client
 
 ## Run
 
-Start PostgreSQL:
+## Start PostgreSQL:
 
 ```cmd
-docker compose -f docker/postgres/docker-compose.yml up -d
+docker compose --env-file .env -f docker/postgres/docker-compose.yml up -d
 
 ```
 
 
-Build and start application services:
+## Build and start application services:
 
 ```
 mvn clean package
- docker compose up --build
+ docker compose up --build -d
 ```
+
+## Testing
+
+The application was built locally and the main API functionality was tested under multiple dependency failure conditions.
+
+## Test scenarios included:
+
+```
+PostgreSQL available and unavailable.
+Redis available and unavailable.
+Kafka available and unavailable.
+Elasticsearch available and unavailable.
+Product API behavior with PostgreSQL and Redis.
+Product search behavior using Elasticsearch.
+Elasticsearch synchronization from PostgreSQL.
+Analytics using PostgreSQL native SQL.
+Kafka event publishing and stream processing.
+```
+
+These tests were performed to validate the behavior and dependency boundaries of the API and stream services when individual infrastructure components are unavailable.
 
 ## Postman Collection
 
@@ -76,7 +96,11 @@ API: `http://localhost:8080`
 
 Health: `http://localhost:8080/api/products/health`
 
-Search: `GET /api/search/products?q=coffee`
+Elastic Search: `GET /api/search/products?keyword=Tea`
+
+Search with field: `GET /api/search/products?field=category&keyword=Tea`
+
+Synchronization: `GET /api/search/sync`
 
 Analytics: `GET /api/products/analytics`
 
@@ -88,6 +112,13 @@ PostgreSQL initialization is located under `docker/postgres/init.sql`.
 
 The application uses JPA/Hibernate for normal persistence and explicit native SQL for the analytics use case.
 
+## Build
+
+The application was successfully built locally using Maven:
+
+``` mvn clean package ```
+
+Docker images were also built and executed using Docker Compose.
 
 ## Author
 

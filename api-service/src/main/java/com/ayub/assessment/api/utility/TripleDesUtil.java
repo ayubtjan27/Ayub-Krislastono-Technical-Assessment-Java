@@ -6,19 +6,15 @@ import java.security.GeneralSecurityException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-/* Triple DES encryption and decryption utility */
 public final class TripleDesUtil {
 
     private static final String ALGORITHM = "DESede";
 
-    private static final String TRANSFORMATION = "DESede/ECB/PKCS5Padding";
+    private static final String TRANSFORMATION =
+            "DESede/ECB/PKCS5Padding";
 
-    /*
-     * 24-byte Triple DES key.
-     * The value is represented as a 48-character HEX string.
-     */
     private static final String SECRET_KEY_HEX =
-            "697276616E7261626962756C6C6168726976616E726162";
+            "697276616E7261626962756C6C6168726976616E72616200";
 
     private static final SecretKeySpec SECRET_KEY;
 
@@ -26,10 +22,13 @@ public final class TripleDesUtil {
         byte[] keyBytes = HexUtil.decode(SECRET_KEY_HEX);
 
         if (keyBytes.length != 24) {
-            throw new IllegalStateException("Triple DES key must contain 24 bytes");
+            throw new IllegalStateException(
+                    "Triple DES key must contain 24 bytes");
         }
 
-        SECRET_KEY = new SecretKeySpec(keyBytes, ALGORITHM);
+        SECRET_KEY = new SecretKeySpec(
+                keyBytes,
+                ALGORITHM);
     }
 
     private TripleDesUtil() {
@@ -41,16 +40,23 @@ public final class TripleDesUtil {
         }
 
         try {
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            cipher.init(Cipher.ENCRYPT_MODE, SECRET_KEY);
+            Cipher cipher =
+                    Cipher.getInstance(TRANSFORMATION);
 
-            byte[] encrypted = cipher.doFinal(
-                    value.getBytes(StandardCharsets.UTF_8)
-            );
+            cipher.init(
+                    Cipher.ENCRYPT_MODE,
+                    SECRET_KEY);
+
+            byte[] encrypted =
+                    cipher.doFinal(
+                            value.getBytes(StandardCharsets.UTF_8));
 
             return HexUtil.encode(encrypted);
+
         } catch (GeneralSecurityException e) {
-            throw new IllegalStateException("Failed to encrypt value", e);
+            throw new IllegalStateException(
+                    "Failed to encrypt value",
+                    e);
         }
     }
 
@@ -60,16 +66,29 @@ public final class TripleDesUtil {
         }
 
         try {
-            byte[] encrypted = HexUtil.decode(value);
+            byte[] encrypted =
+                    HexUtil.decode(value);
 
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            cipher.init(Cipher.DECRYPT_MODE, SECRET_KEY);
+            Cipher cipher =
+                    Cipher.getInstance(TRANSFORMATION);
 
-            byte[] decrypted = cipher.doFinal(encrypted);
+            cipher.init(
+                    Cipher.DECRYPT_MODE,
+                    SECRET_KEY);
 
-            return new String(decrypted, StandardCharsets.UTF_8);
-        } catch (GeneralSecurityException | IllegalArgumentException e) {
-            throw new IllegalStateException("Failed to decrypt value", e);
+            byte[] decrypted =
+                    cipher.doFinal(encrypted);
+
+            return new String(
+                    decrypted,
+                    StandardCharsets.UTF_8);
+
+        } catch (GeneralSecurityException
+                | IllegalArgumentException e) {
+
+            throw new IllegalStateException(
+                    "Failed to decrypt value",
+                    e);
         }
     }
 
@@ -83,15 +102,19 @@ public final class TripleDesUtil {
         }
 
         try {
-            byte[] decoded = HexUtil.decode(value);
+            byte[] decoded =
+                    HexUtil.decode(value);
 
-            if (decoded.length == 0 || decoded.length % 8 != 0) {
+            if (decoded.length == 0
+                    || decoded.length % 8 != 0) {
                 return false;
             }
 
-            String decrypted = decrypt(value);
+            String decrypted =
+                    decrypt(value);
 
             return !decrypted.isEmpty();
+
         } catch (Exception e) {
             return false;
         }
