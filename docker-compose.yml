@@ -24,7 +24,7 @@ services:
     build:
       context: .
       dockerfile: api-service/Dockerfile
-    depends_on: [redis,kafka]
+    depends_on: [redis,kafka,elasticsearch]
     ports: ["8080:8080"]
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:${POSTGRES_PORT}/${POSTGRES_DB}
