@@ -11,8 +11,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ElasticsearchConfig {
- @Bean ElasticsearchClient elasticsearchClient(@Value("${elasticsearch.url:http://localhost:9200}") String url){
-   RestClient rest=RestClient.builder(HttpHost.create(url)).build();
-   return new ElasticsearchClient(new RestClientTransport(rest,new JacksonJsonpMapper()));
- }
+
+    @Bean
+    ElasticsearchClient elasticsearchClient(
+            @Value("${elasticsearch.url:http://localhost:9200}") String url) {
+
+        RestClient rest = RestClient
+                .builder(HttpHost.create(url))
+                .build();
+
+        return new ElasticsearchClient(
+                new RestClientTransport(
+                        rest,
+                        new JacksonJsonpMapper()
+                )
+        );
+    }
 }

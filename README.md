@@ -9,7 +9,7 @@ Client
   |
   +--> API Service :8080
   |       |
-  |       +--> PostgreSQL :5433
+  |       +--> PostgreSQL Source of Truth :5433
   |       |       |
   |       |       +--> JPA/Hibernate
   |       |       +--> Native SQL Analytics
@@ -76,7 +76,11 @@ API: `http://localhost:8080`
 
 Health: `http://localhost:8080/api/products/health`
 
-Search: `GET /api/search/products?q=coffee`
+Search: `GET /api/search/products?keyword=Tea`
+
+Search with field: `GET /api/search/products?field=category&keyword=Tea`
+
+Synchronization: `GET /api/search/sync`
 
 Analytics: `GET /api/products/analytics`
 

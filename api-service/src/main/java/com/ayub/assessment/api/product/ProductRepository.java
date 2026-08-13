@@ -42,7 +42,15 @@ public interface ProductRepository
         WHERE rank_no <= 3
         ORDER BY total_quantity DESC
         """, nativeQuery = true)
+
     List<Object[]> advancedAnalytics(
             BigDecimal minPrice,
             BigDecimal maxPrice);
+
+    @Query("""
+        SELECT p
+        FROM Product p
+        WHERE p.active = true
+        """)
+    List<Product> findActiveProducts();
 }
