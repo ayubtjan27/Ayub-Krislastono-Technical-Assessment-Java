@@ -23,16 +23,22 @@ public class ProductService {
         this.kafka = kafka;
     }
 
-    @Cacheable(cacheNames = "products", key = "#id")
+    @Cacheable(
+            cacheNames = "products",
+            key = "#id")
     public Product find(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id)
+                .orElseThrow();
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "products", key = "#result.id")
+    @CacheEvict(
+            cacheNames = "products",
+            key = "#result.id")
     public Product save(Product product) {
 
-        Product saved = repository.save(product);
+        Product saved =
+                repository.save(product);
 
         kafka.send(
                 "product-events",
@@ -50,7 +56,8 @@ public class ProductService {
             BigDecimal min,
             BigDecimal max) {
 
-        return repository.advancedAnalytics(min, max)
+        return repository
+                .advancedAnalytics(min, max)
                 .stream()
                 .map(r -> new AnalyticsRow(
                         ((Number) r[0]).longValue(),

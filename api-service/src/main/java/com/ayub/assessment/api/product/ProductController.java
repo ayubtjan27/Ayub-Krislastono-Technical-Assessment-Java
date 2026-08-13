@@ -27,14 +27,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
+    public Product create(
+            @RequestBody Product product) {
+
         return service.save(product);
     }
 
     @GetMapping("/analytics")
     public Object analytics(
-            @RequestParam(defaultValue = "0") BigDecimal min,
-            @RequestParam(defaultValue = "999999999") BigDecimal max) {
+            @RequestParam(
+                    defaultValue = "0")
+            BigDecimal min,
+
+            @RequestParam(
+                    defaultValue = "999999999")
+            BigDecimal max) {
 
         return service.analytics(min, max);
     }

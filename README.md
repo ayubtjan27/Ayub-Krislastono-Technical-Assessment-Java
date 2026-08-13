@@ -52,7 +52,7 @@ Client
 Start PostgreSQL:
 
 ```cmd
-docker compose -f docker/postgres/docker-compose.yml up -d
+docker compose --env-file .env -f docker/postgres/docker-compose.yml up -d
 
 ```
 
@@ -61,7 +61,7 @@ Build and start application services:
 
 ```
 mvn clean package
- docker compose up --build
+ docker compose up --build -d
 ```
 
 ## Postman Collection
